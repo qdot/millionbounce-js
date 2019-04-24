@@ -1,6 +1,6 @@
-//import { EventEmitter } from "events";
+import { EventEmitter } from "events";
 
-export class MasterAMillionBall {// extends EventEmitter {
+export class MasterAMillionBall extends EventEmitter {
 
   // Bluetooth device name. Not exactly surprising.
   public static readonly BLE_NAME: string = "MAM";
@@ -23,7 +23,7 @@ export class MasterAMillionBall {// extends EventEmitter {
   private _ballId: number | null = null;
 
   constructor() {
-    // super();
+    super();
   }
 
   // To connect, we'll need to do a few things.
@@ -78,8 +78,8 @@ export class MasterAMillionBall {// extends EventEmitter {
 
     // Once we have our characteristics, actually subscribe to our notification
     // to make sure we get updates.
+    this._notifyChar!.addEventListener("characteristicvaluechanged", (e) => this.CharacteristicValueChanged(e));
     await this._notifyChar!.startNotifications();
-    this._notifyChar!.addEventListener("characteristicvaluechanged", this.CharacteristicValueChanged);
   }
 
   public Disconnect() {
@@ -140,15 +140,18 @@ export class MasterAMillionBall {// extends EventEmitter {
     if (!this.Connected) {
       return;
     }
-    this._writeChar!.writeValue(Buffer.from(aArray));
+    this._writeChar!.writeValue(Uint8Array.from(aArray));
   }
 
   private CharacteristicValueChanged = (aEvent: Event) => {
-    const view = (aEvent.target! as BluetoothRemoteGATTCharacteristic).value!;
-    const b = Buffer.from(view.buffer, view.byteOffset, view.byteLength);
-    console.log(b);
-  }
+    const view = (aEvent.target! as BluetoothRemoteGATTCharacteristic).value!.buffer;
+    const b = new Uint8Array(view, 0, view.byteLength);
 
-  private async WaitForUpdate() {
+    // TODO assert b[0] == 0x56 Here
+
+    // Too bad there's no such thing as a Uint24Array, huh?
+    const id = (b[1] << 16) + (b[2] << 8) + (b[3]);
+    const count = (b[4] << 16) + (b[5] << 8) + (b[6]);
+    this.emit("update", {id, count});
   }
 }
