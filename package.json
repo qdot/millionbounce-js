@@ -2,7 +2,8 @@
   "name": "millionbounce",
   "version": "1.0.1",
   "description": "Node.js and WebBluetooth API for the Master-A-Million 2.0 Bluetooth LE Bouncy Ball",
-  "main": "index.js",
+  "main": "dist/main/index.js",
+  "types": "dist/main/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:web": "webpack --config=build/webpack.base.js",
