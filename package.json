@@ -1,0 +1,45 @@
+{
+  "name": "millionbounce",
+  "version": "1.0.0",
+  "description": "Node.js and WebBluetooth API for the Master-A-Million 2.0 Bluetooth LE Bouncy Ball",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:web": "webpack --config=build/webpack.base.js",
+    "build:web:release": "webpack --progress --hide-modules --config=build/webpack.production.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qdot/millionbounce-js.git"
+  },
+  "keywords": [
+    "bluetooth",
+    "devices"
+  ],
+  "author": "Kyle Machulis <kyle@nonpolynomial.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/qdot/millionbounce-js/issues"
+  },
+  "homepage": "https://github.com/qdot/millionbounce-js#readme",
+  "devDependencies": {
+    "@types/noble": "^0.0.39",
+    "@types/node": "^11.13.7",
+    "@types/web-bluetooth": "^0.0.4",
+    "trash-cli": "^2.0.0",
+    "tslib": "^1.9.3",
+    "tslint": "^5.16.0",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.4.5",
+    "yarn": "^1.15.2",
+    "webpack": "^4.30.0",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.1",
+    "webpack-merge": "^4.2.1",
+    "ts-loader": "^5.x"
+  },
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-2"
+  }
+}
