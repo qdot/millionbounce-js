@@ -1,5 +1,18 @@
 import { EventEmitter } from "events";
 
+// Represents a MasterAMillionBall bouncy ball. Things to know:
+//
+// - The first time you register a ball, you'll need to set the ID. If it's just
+//   blinking red for a couple of minutes, that means it's uninitialized and
+//   needs an ID. If the ID isn't set within ~2 minutes, bluetooth shuts down.
+//
+// - After an ID is set, the ball will blink red 3 times every time you bounce
+//   it. This will start bluetooth up for something like 20 seconds. AFAICT
+//   there is no keep alive outside of bouncing the ball more, which resets the
+//   timer. After that, the ball just shuts down until bounced again. That makes
+//   this less than useful for WebBluetooth, which requires user gesture
+//   reconnects every time the device disconnects. I'm not sure if there's a
+//   protocol based keepalive yet.
 export class MasterAMillionBall extends EventEmitter {
 
   // Bluetooth device name. Not exactly surprising.
